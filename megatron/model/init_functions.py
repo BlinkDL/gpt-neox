@@ -2,7 +2,6 @@ import math
 
 import torch
 
-
 def init_method_normal(sigma):
     """Init method based on N(0, sigma)."""
 
@@ -11,6 +10,17 @@ def init_method_normal(sigma):
 
     return init_
 
+def init_method_uniform(low, high):
+    """Init method based on Uniform(low, high)."""
+    def init_(tensor):
+        return torch.nn.init.uniform_(tensor, a=low, b=high)
+    return init_
+
+def init_method_zero():
+    """Init tensor to ZERO"""
+    def init_(tensor):
+        return torch.nn.init.zeros_(tensor)
+    return init_
 
 def scaled_init_method_normal(sigma, num_layers):
     """Init method based on N(0, sigma/sqrt(2*num_layers)."""
@@ -122,6 +132,8 @@ def get_init_methods(args):
             return wang_init_method(args.num_layers, args.hidden_size)
         elif name == "small_init":
             return small_init_init_method(args.hidden_size)
+        elif name == 'zero_init':
+            return init_method_zero()            
         else:
             raise NotImplementedError(f"Unkown init method {name}")
 

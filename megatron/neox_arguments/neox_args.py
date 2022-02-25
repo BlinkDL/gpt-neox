@@ -267,6 +267,11 @@ class NeoXArgsModel(NeoXArgsTemplate):
     Base for rotary positional embedding
     """
 
+    small_init_emb_and_layernorm: bool = False
+    """
+    The LayerNorm(SmallInitEmb) trick proposed by BlinkDL (https://github.com/BlinkDL/SmallInitEmb)
+    """
+
     init_method: Literal[
         "normal",
         "scaled_normal",
@@ -291,10 +296,11 @@ class NeoXArgsModel(NeoXArgsTemplate):
         "xavier_normal",
         "wang_init",
         "small_init",
+        "zero_init",
     ] = "scaled_normal"
     """
     Init function used for ff residual outputs - choose from
-    ["normal", "scaled_normal", "orthogonal", "scaled_orthogonal", "xavier_uniform", "xavier_normal", "wang_init", "small_init"]
+    ["normal", "scaled_normal", "orthogonal", "scaled_orthogonal", "xavier_uniform", "xavier_normal", "wang_init", "small_init", "zero_init"]
     """
 
     gmlp_attn_dim: int = 64
